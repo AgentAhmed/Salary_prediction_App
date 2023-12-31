@@ -4,7 +4,7 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
-project_name="Salary_Prediction"
+project_name="SalaryPrediction"
 
 list_of_files=[
     f"src/{project_name}/__init__.py",
