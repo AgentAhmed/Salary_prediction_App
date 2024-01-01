@@ -3,3 +3,8 @@ pandas
 streamlit
 matplotlib
 seaborn
+mysql-connector-python
+pymysql
+python-dotenv
+scikit-learn
+#-e .
