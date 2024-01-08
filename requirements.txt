@@ -2,6 +2,7 @@ numpy
 pandas
 streamlit
 matplotlib
+ipykernel
 seaborn
 mysql-connector-python
 pymysql
