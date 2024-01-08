@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import os  # Import the os module
 
 def shorten_categories(categories, cutoff):
     categorical_map = {}
@@ -13,7 +14,7 @@ def shorten_categories(categories, cutoff):
 
 
 def clean_experience(x):
-    if x ==  'More than 50 years':
+    if x == 'More than 50 years':
         return 50
     if x == 'Less than 1 year':
         return 0.5
@@ -32,7 +33,11 @@ def clean_education(x):
 
 @st.cache_resource
 def load_data():
-    df = pd.read_csv("raw_survey.zip", compression='zip')
+    # Get the absolute path to the 'raw_survey.zip' file
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(script_dir, 'raw_survey.zip')
+
+    df = pd.read_csv(file_path, compression='zip')
     df = df[["Country", "EdLevel", "YearsCodePro", "Employment", "ConvertedCompYearly"]]
     df = df[df["ConvertedCompYearly"].notnull()]
     df = df.dropna()

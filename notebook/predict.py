@@ -1,18 +1,26 @@
 import streamlit as st
 import pickle
 import numpy as np
-
+import os
 
 def load_model():
-    with open('saved_steps.pkl', 'rb') as file:
+    # Get the absolute path to the 'saved_steps.pkl' file
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(script_dir, 'saved_steps.pkl')
+
+    # Load the machine learning model and related data
+    with open(file_path, 'rb') as file:
         data = pickle.load(file)
-    return data
 
-data = load_model()
+    # Extract data from the loaded file
+    regressor = data["model"]
+    le_country = data["le_country"]
+    le_education = data["le_education"]
 
-regressor = data["model"]
-le_country = data["le_country"]
-le_education = data["le_education"]
+    return regressor, le_country, le_education
+
+# Load the model and related data
+regressor, le_country, le_education = load_model()
 
 def show_predict_page():
     st.title("Employee Salary Prediction")
