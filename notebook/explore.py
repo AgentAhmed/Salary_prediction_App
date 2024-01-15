@@ -73,7 +73,6 @@ def show_explore_page():
     ax1.axis("equal")  # Equal aspect ratio ensures that pie is drawn as a circle.
 
     st.write("""#### Number of Data from different countries""")
-
     st.pyplot(fig1)
     
     st.write(
@@ -93,3 +92,27 @@ def show_explore_page():
 
     data = df.groupby(["YearsCodePro"])["Salary"].mean().sort_values(ascending=True)
     st.line_chart(data)
+
+    st.write(
+        """
+    #### Salary vs. Experience (Scatter Plot)
+    """
+    )
+
+    fig2, ax2 = plt.subplots()
+    ax2.scatter(df["YearsCodePro"], df["Salary"], alpha=0.5)
+    ax2.set_xlabel("Years of Professional Coding Experience")
+    ax2.set_ylabel("Salary")
+    st.pyplot(fig2)
+
+    st.write(
+        """
+    #### Distribution of Salaries (Histogram)
+    """
+    )
+
+    fig3, ax3 = plt.subplots()
+    ax3.hist(df["Salary"], bins=20, edgecolor='black')
+    ax3.set_xlabel("Salary")
+    ax3.set_ylabel("Frequency")
+    st.pyplot(fig3)
