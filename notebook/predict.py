@@ -2,8 +2,6 @@ import streamlit as st
 import pickle
 import numpy as np
 import os
-import pandas as pd
-import plotly.express as px
 
 def load_model():
     # Get the absolute path to the 'saved_steps.pkl' file
@@ -68,7 +66,7 @@ def show_predict_page():
         salary = regressor.predict(X)
         st.subheader(f"The estimated salary is ${salary[0]:,.2f}")
 
-        # Display additional visualizations with Plotly
+        # Display additional visualizations
         st.write(
             """
             ### Additional Visualizations
@@ -80,34 +78,11 @@ def show_predict_page():
         education_data["Average Salary"] = education_data["Education Level"].apply(
             lambda x: regressor.predict(np.array([[0, le_education.transform(x), 3]]))[0]
         )
-
-        fig_bar = px.bar(
-            education_data,
-            x="Education Level",
-            y="Average Salary",
-            title="Average Salary Based on Education Level",
-            labels={"Average Salary": "Average Salary ($)"},
-            color="Average Salary",
-            color_continuous_scale="Viridis",
-        )
-
-        st.plotly_chart(fig_bar)
+        st.bar_chart(education_data.set_index("Education Level")["Average Salary"])
 
         # Line chart showing salary distribution across different countries
         countries_data = pd.DataFrame({"Country": countries})
         countries_data["Average Salary"] = countries_data["Country"].apply(
             lambda x: regressor.predict(np.array([[le_country.transform(x), 0, 3]]))[0]
         )
-
-        fig_line = px.line(
-            countries_data,
-            x="Country",
-            y="Average Salary",
-            title="Salary Distribution Across Countries",
-            labels={"Average Salary": "Average Salary ($)"},
-            line_shape="linear",
-            line_group="Country",
-            color_discrete_sequence=px.colors.qualitative.Set1,
-        )
-
-        st.plotly_chart(fig_line)
+        st.line_chart(countries_data.set_index("Country")["Average Salary"])
